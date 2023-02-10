@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+@font-face {
+	font-family: "KCC은영체";
+	src: url(./font/KCC.ttf);
+}
+@font-face {
+	font-family: "Si_Woo";
+	src: url(./font/Ownglyph_2022_UWY_Si_Woo-Rg.ttf);
+}
+
+:root {
+	--font-KCC: "KCC은영체";
+	--font-Si_Woo:"Si_Woo";
+
+}
