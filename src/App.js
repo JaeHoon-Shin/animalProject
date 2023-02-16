@@ -28,13 +28,31 @@ function App() {
   function singupOpenFn() {
     setsinupOpen(true);
   }
+
+  //로그인확인 세션
+  let sessionStorage = window.sessionStorage;
+
+  console.log(sessionStorage.getItem("loginId"));
+
+  const [loginId, setLoginId] = useState();
+
+  useEffect(() => {
+    sessionStorage.setItem("loginId", loginId)
+  }, [loginId])
+
+
+  function logOutFn(){
+    sessionStorage.clear();
+    setLoginId();
+  }
+
   return (
     <>
       <BrowserRouter>
         <header>
-          <Header loginOpenFn={loginOpenFn} singupOpenFn ={singupOpenFn} ></Header>
+          <Header loginOpenFn={loginOpenFn} singupOpenFn={singupOpenFn}  setLoginId={setLoginId} loginId={loginId} logOutFn={logOutFn} ></Header>
         </header>
-        <Login isOpen={loginOpen} setOpen={setloginOpen} setsinupOpen={setsinupOpen} />
+        <Login isOpen={loginOpen} setOpen={setloginOpen} setsinupOpen={setsinupOpen} setLoginId={setLoginId} />
         <SingUp isOpen={sinupOpen} setOpen={setsinupOpen} />
         <Context>
           <main>
@@ -48,7 +66,7 @@ function App() {
               <Route path='/Qnalist' element={<Qnalist />}></Route>
               <Route path='/TodoList' element={<TodoList />}></Route>
               <Route path='/TodoWrite' element={<TodoWrite />}> </Route>
-              <Route path='/TodoInfo/:no' element={<TodoInfo />}></Route>
+              <Route path='/TodoInfo/:todo_no' element={<TodoInfo />}></Route>
             </Routes>
           </main>
         </Context>

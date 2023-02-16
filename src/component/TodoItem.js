@@ -3,15 +3,16 @@ import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 const TodoItem = ({ obj }) => {
     const movePage = useNavigate();
-    const todoInfoFn=(no)=>{
-        movePage(`/TodoInfo/${no}`);
+    const todoInfoFn=(todo_no)=>{
+        movePage(`/TodoInfo/${todo_no}`);
     }
+   
     return (
-        <tr onClick ={()=>todoInfoFn(obj.no)}>
-            <td>{obj.no}</td>
-            <td>{obj.title}</td>
-            <td>{obj.name}</td>
-            <td>{obj.date}</td>
+        <tr onClick ={()=>todoInfoFn(obj.todo_no)}>
+            <td>{obj.todo_no}</td>
+            <td>{obj.todo_title}</td>
+            <td>{obj.todo_name}</td>
+            <td>{obj.todo_date}</td>
         </tr>
     )
 }

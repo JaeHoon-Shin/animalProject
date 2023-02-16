@@ -36,21 +36,24 @@ const Context = ({ children }) => {
     const [yugi, setYugi] = useState([]);
     const [yugiList, setYugiList] = useState([]);
 
+
+
+
+
     //todo 리스트 데이터들
     const [todoList, setTodoList] = useState([]);
     //todo 리스트 no값 현재 데이터 json에 4개의 값이 있어서 5로 초기값 설정
-    const todoNo = useRef(5);
 
 
     //페이지 이동
     const movePage = useNavigate();
-    function movePageFn(page){
+    function movePageFn(page) {
         movePage(`/${page}`)
     }
     //console.log(a.replace(/[^\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]/gi,"").replace("함초롬바탕"));  //한글만 뽑아냄
 
 
-     //유기동물 정보
+    //유기동물 정보
     const fetchYugi = async (num) => {
         var one;
         var two;
@@ -70,16 +73,14 @@ const Context = ({ children }) => {
         }
         setYugi(yugi);
     }
+    const [t, setT] = useState(0)
 
-    useEffect(() => {
-        fetchYugi('');
-        fetchUsers();
-        // todo리스트 데이터 저장 
-        setTodoList(todoData.sort((a, b) => {
-            return b.no - a.no;
-        }));
 
-    }, [])
+
+
+
+
+
     const fetchUsers = async () => {
         try {
             // 요청이 시작 할 때에는 error를 초기화하고
@@ -96,7 +97,7 @@ const Context = ({ children }) => {
             //입양 대기 동물 데이터 , 입양 대기 동물 이미지 데이터
             const animal1 = await axios.get('http://openapi.seoul.go.kr:8088/674848546c73696e3130375966526375/json/TbAdpWaitAnimalView/1/100/')
             const animalImg1 = await axios.get('http://openapi.seoul.go.kr:8088/674848546c73696e3130375966526375/json/TbAdpWaitAnimalPhotoView/1/1000/')
-           
+
 
             var value = [];
             var anName;
@@ -127,21 +128,67 @@ const Context = ({ children }) => {
         setLoading(false);
     };
 
+    // todo리스트 몰록 
+    function getTodoList() {
+        axios.get("https://port-0-testserver-luj2cle3qhxst.sel3.cloudtype.app/list").then((res) => {
+            setTodoList(res.data);
+        }).catch();
 
-    // 리스트 데이터에 추가.
-    function insertTodo(todoTitle, Content, name) {
-        var value = { no: todoNo.current++, title: todoTitle, content: Content, date: new Date().toISOString().substring(0, 10), name: name }
-        var arr = todoList;
-        arr.push(value)
-        setTodoList(arr.sort((a, b) => {
-            return b.no - a.no;
-        }))
     }
+    // todo리스트 추가.
+    function insertTodo(todo_Title, todo_Content, todo_name) {
+        var value = { title: todo_Title, content: todo_Content, name: todo_name }
+        axios.post("https://port-0-testserver-luj2cle3qhxst.sel3.cloudtype.app/insert", { title: value.title, name: value.name, content: value.content }).
+            then((res) => {
+                console.log(res.data);
+                getTodoList();
+            }).catch();
+
+    }
+
+
+    //todo리스트 수정
+    function updateTodo(todo_no, todo_Title, todo_Content, todo_name) {
+        var value = { no: todo_no, title: todo_Title, content: todo_Content, name: todo_name }
+        axios.post("https://port-0-testserver-luj2cle3qhxst.sel3.cloudtype.app/update", { no: todo_no, title: value.title, name: value.name, content: value.content }).
+            then((res) => {
+                console.log(res.data);
+                getTodoList();
+            }).catch();
+
+    }
+
+    //todo리스트 삭제
+
+    function deleteTodo(todo_no) {
+
+        axios.post("https://port-0-testserver-luj2cle3qhxst.sel3.cloudtype.app/delete", { no: todo_no }).
+            then((res) => {
+                console.log(res.data);
+                getTodoList();
+            }).catch();
+
+    }
+    //todo리스트 검색
+    function selectTodo(type, value) {
+
+        axios.post("https://port-0-testserver-luj2cle3qhxst.sel3.cloudtype.app/select", { type, value }).
+            then((res) => (
+                setTodoList(res.data))).catch();
+    }
+
+
+
+    useEffect(() => {
+        fetchYugi('');
+        fetchUsers();
+        getTodoList();
+    }, [])
 
     if (loading) return <div>로딩중..</div>;
     if (error) return <div>에러가 발생했습니다</div>;
     return (
-        <AnimalContext.Provider value={{ animal, yugi, yugiChange, yugiList, insertTodo, todoList, setTodoList ,movePageFn}}>
+        <AnimalContext.Provider value={{ animal, yugi, yugiChange, yugiList, insertTodo, todoList, movePageFn, selectTodo, getTodoList, updateTodo, deleteTodo }}>
             {children}
         </AnimalContext.Provider>
     )

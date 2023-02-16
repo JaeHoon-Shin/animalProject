@@ -12,55 +12,45 @@ import { Editor } from '@toast-ui/react-editor';
 
 
 const TodoInfo = () => {
-    const { no } = useParams();
-    const { todoList, setTodoList } = useContext(AnimalContext);
+    const { todo_no } = useParams();
+    const { todoList, updateTodo, deleteTodo, } = useContext(AnimalContext);
     const [info, setInfo] = useState();
     const [mCheck, setMcheck] = useState(false)
     const movePage = useNavigate();
     const [title, setTitle] = useState();
     const [name, setName] = useState();
     const editor = useRef();
-    const [text, setText] = useState('');
+    const [content, setContent] = useState('');
     useEffect(() => {
         todoList && todoList.map((obj, key) => {
-            if (obj.no == no) {
+            if (obj.todo_no == todo_no) {
                 setInfo(obj);
-                setTitle(obj.title);
-                setName(obj.name);
-
+                setTitle(obj.todo_title);
+                setName(obj.todo_name);
             }
         })
     }, [])
-
     const handleChangeInput = () => {
-        setText(editor.current.getInstance().getHTML());
+        setContent(editor.current.getInstance().getHTML());
     };
     // 목록으로 돌아가기
     const toList = () => {
-        movePage('/TodoList')
+        movePage('/TodoList');
     }
     // 수정상태 확인
     const modifyCheck = () => {
-        setMcheck(true)
+        setMcheck(true);
 
     }
-    // 수정
+    // 수정 todo_no, todo_Title, todo_Content, todo_name
     const modify = () => {
-        todoList && todoList.map((obj, key) => {
-            if (obj.no == no) {
-                obj.title = title;
-                obj.name = name;
-                obj.content = text;
-            }
-        })
-        setTodoList([...todoList])
-        movePage('/TodoList')
+        updateTodo(todo_no, title, content, name );
+        movePage('/TodoList');
     }
     // 삭제
     const remove = () => {
-        var data = todoList && todoList.filter((obj) => obj.no != no)
-        setTodoList(data);
-        movePage('/TodoList')
+        deleteTodo(todo_no);
+        movePage('/TodoList');
     }
     return (
         info && <div className='info-container'>
@@ -70,28 +60,29 @@ const TodoInfo = () => {
                     <tbody>
                         <tr>
                             <th scope="row"><p>제목</p></th>
-                            {mCheck ? <td><input type='text' value={title} onChange={(e) => setTitle(e.target.value)} ></input></td> : <td> {info.title}</td>}
+                            {mCheck ? <td><input type='text' value={title} onChange={(e) => setTitle(e.target.value)} ></input></td> : <td> {info.todo_title}</td>}
                         </tr>
                         <tr>
                             <th scope="row"><p>작성자</p></th>
-                            {mCheck ? <td><input type='text' value={name} onChange={(e) => setName(e.target.value)} ></input></td> : <td>{info.name}</td>}
+                            {mCheck ? <td><input type='text' value={name} onChange={(e) => setName(e.target.value)} ></input></td> : <td>{info.todo_name}</td>}
                         </tr>
                         <tr>
                             <th scope="row"><p>내용</p></th>
                             {mCheck ? <td><Editor
                                 ref={editor}
-                                initialValue={info.content}
+                                initialValue={info.todo_content}
                                 previewStyle="vertical"
                                 height="600px"
                                 initialEditType="wysiwyg"
                                 hideModeSwitch={true}
                                 useCommandShortcut={false}
                                 plugins={[colorSyntax]}
-                                onChange={handleChangeInput} /></td> : <td dangerouslySetInnerHTML={{ __html: info.content }} />}
+                                onChange={handleChangeInput} />
+                                </td> : <td dangerouslySetInnerHTML={{ __html: info.todo_content }} />}
                         </tr>
                         <tr>
                             <th scope='row'><p>작성일</p></th>
-                            <td>{info.date}</td>
+                            <td>{info.todo_date}</td>
                         </tr>
                     </tbody>
                 </table>

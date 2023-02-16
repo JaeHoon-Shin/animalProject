@@ -1,13 +1,12 @@
 import React from 'react'
 import {Link } from 'react-router-dom';
-const Header = ({loginOpenFn,singupOpenFn}) => {
+const Header = ({loginOpenFn,singupOpenFn,loginId,setLoginId,logOutFn}) => {
     return (
         <>
             <div className='header-top'>
                 <ul className='text-box'>
-                    <li className='logout-box'><p onClick={loginOpenFn}>로그인</p></li>
-                    <li className='logout-box'><p onClick={singupOpenFn}>회원가입</p></li>
-                    <li className='login-box'><Link to="/logOut"><p>로그아웃</p></Link></li>
+                    <li className='logout-box'>{ loginId ? <p>{loginId}님</p> : <p onClick={loginOpenFn}>로그인</p>}</li>
+                    <li className='logout-box'> {loginId ? <p onClick={logOutFn}>로그아웃</p> : <p onClick={singupOpenFn}>회원가입</p> }</li>
                     <li className='login-box'><Link to="/myPage"><img src='../img/mypage.svg'></img></Link></li>
                 </ul>
             </div>

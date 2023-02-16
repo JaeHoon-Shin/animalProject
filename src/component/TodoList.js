@@ -4,30 +4,41 @@ import { AnimalContext } from '../Context';
 import TodoItem from './TodoItem';
 import Pagination from "react-js-pagination";
 import styled from 'styled-components'
+import axios from 'axios';
 
 const TodoList = () => {
-    const { todoList, movePageFn } = useContext(AnimalContext);
-    const select = useRef('');
-    const [searchValue, setSearchValue] = useState();
+    const { todoList, movePageFn, selectTodo } = useContext(AnimalContext);
+    const select = useRef('ALL');
+
     const searchEl = useRef();
     const [list, setList] = useState([])
 
     useEffect(() => {
-        setList(todoList)
-    }, [])
+        setList(todoList);
+    }, [todoList])
+    //console.log(list)
+
     const changeFn = (e) => {
         select.current = e.target.value;
-        if (e.target.value == '') {
-            setSearchValue('');
-        }
-        if (select.current == 'ALL') {
-
-        }
     }
     const searchFn = () => {
-        setSearchValue(searchEl.current.value)
-        searchEl.current.value = ''
+        selectTodo(select.current, searchEl.current.value )
+        /* switch (select.current) {
+            case 'ALL':
+                setList(todoList);
+                break;
+            case 'title':
+                setList(list.filter((obj) => obj.todo_title.toLowerCase().includes(searchEl.current.value)))
+                break;
+            case 'name':
+                setList(list.filter((obj) => obj.todo_name.toLowerCase().includes(searchEl.current.value)))
+                break;
+
+        } */
+
     }
+
+    console.log(list);
     //페이지네이션
     const [page, setPage] = useState(1) //현재 페이지
     const [viewPage, setViewPage] = useState(10) // view 페이지 수 
@@ -65,8 +76,8 @@ const TodoList = () => {
             <div className='top-menu'>
                 <div className='search-box'>
                     <select onChange={changeFn}>
-                        <option value=''>전체보기</option>
-                        <option value='ALL'>제목+작성자</option>
+                        <option value='ALL'>전체보기</option>
+                        <option value='both'>둘다</option>
                         <option value='title'>제목</option>
                         <option value='name'>작성자</option>
                     </select>
@@ -87,27 +98,7 @@ const TodoList = () => {
                 <tbody>
                     {
                         list && list.slice(pageOfset, pageOfset + viewPage).map((obj, key) => {
-
-                            if (select.current == 'ALL') {
-                                if (obj.title == searchValue || obj.name == searchValue) {
-                                    return <TodoItem obj={obj} key={key} />
-                                }
-                            }
-                            else if (select.current == 'title') {
-                                if (obj.title == searchValue) {
-                                    return <TodoItem obj={obj} key={key} />
-                                }
-                            }
-                            else if (select.current == 'name') {
-                                if (obj.name == searchValue) {
-
-                                    return <TodoItem obj={obj} key={key} />
-                                }
-                            }
-                            else if (select.current == '') {
-                                return <TodoItem obj={obj} key={key} />
-
-                            }
+                            return <TodoItem obj={obj} key={key} />
                         })
                     }
                 </tbody>

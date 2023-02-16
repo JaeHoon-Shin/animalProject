@@ -32,8 +32,6 @@ const Main = () => {
     //슬릭슬라이드css
     const SlickItems = styled.div`
     width: 50%;    
-    
-
     img {
         max-width: 100%;
         height: 100%;
@@ -46,6 +44,8 @@ const Main = () => {
 
     return (
         <>
+
+        
             <div className='main-container'>
                 <section className='text-container'>
                     <figure className="text-content">
