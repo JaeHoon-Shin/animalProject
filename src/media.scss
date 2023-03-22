@@ -1,0 +1,214 @@
+$mobile : 480px;
+$tablet : 769px;
+$pc : 1400px;
+
+@mixin device($min, $max) {
+    @media (min-width:$min) and (max-width:$max) {
+        @content;
+    }
+
+}
+@include device($tablet,$pc ){
+
+    header{
+        >.header-top{
+            padding: 10px 100px;
+        }
+        >.header-nav{
+            padding : 0 100px;
+            >.logo{
+                >a{
+                    display: none;
+                }
+                >h2{
+                    margin-left: 0;
+                    font-size: 36px;
+                }
+            }
+            >ul{
+                font-size: 16px;
+                >li{
+                    margin-left: 15px;
+                }
+            }
+        }
+    }
+    main{
+        
+        >.main-container{
+            >.text-container{
+                padding : 50px 100px;
+                >.text-content{
+                    >img{
+                        margin-left: 0;
+                    }
+                    >figcaption{
+                        width: 100%;
+                        >p{
+                            margin-top: 10px;
+                            font-size: 20px;
+                        }
+                    }
+                }
+            }
+            >.view-slied-container{
+                padding : 50px 100px;
+                >h3{
+                    margin:0 0 50px;
+                    font-size: 30px;
+                }
+                >.slick-slider{
+                    >.slick-list {
+                        >.slick-track {
+                            >.slick-slide {
+                                >div {
+                                    >div{
+                                        >figure{
+                                            >p{
+                                                margin-top: 10px;
+                                                font-size: 16px;
+                                            }
+                                            >button{
+                                                margin: 15px 0;
+                                            }
+                                        }
+                                    }
+                                }  
+                            }
+                        }
+                    }
+                }
+                >.list-button{
+                    margin: 25px auto;
+                }
+            }
+            >.main-QnA-container{
+                padding: 50px 100px;
+                >h3{
+                    font-size: 30px;
+                    margin: 0 0 50px;
+                }
+                >.icon-box{
+                    margin-bottom: 50px;
+                    >figure{
+                        >figcaption{
+                            font-size: 20px;
+                        }
+                    }
+                }
+            }
+        }
+        >.animal-container{
+            padding : 0 100px;
+            >h3{
+                margin-bottom: 0;
+            }
+        }
+        >.info-container{
+            padding : 0 100px;
+            >h3{
+                margin-bottom: 0;
+            }
+            >.info-content{
+                >.img-box{
+                    width: 60%;
+                }
+                >.text-box{
+                    width: 38%;
+                    >ul{
+                        >li{
+                            width: 100%;
+                            p{
+                                margin: 5px 0;
+                            }
+                        }
+                    }
+                    >.img-list{
+                        >figure{
+                            width: 24%;
+                        }
+                    }
+                }
+            }
+            >.youtube-content{
+                >.youtube-video-box{
+                    display: block;
+                    text-align: center;
+                    >iframe{
+                        width: 100%;
+                        margin-bottom: 50px;
+                    }
+                    >.youtube-text{
+                        width: 100%;
+                        >p{
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+        }
+        >.yugi-container{
+            padding : 0 100px;
+            >h3{
+                margin-bottom: 0;
+            }
+
+        }
+        >.yugi-info-container{
+            padding : 0 100px;
+            >h3{
+                margin-bottom: 0;
+            }
+            >.info-content{
+                >.img-box{
+                    width: 60%;
+                }
+                >.text-box{
+                    width: 38%;
+                    >ul{
+                        >li{
+                            width: 100%;
+                            p{
+                                margin: 5px 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        >.todo-container{
+            padding : 0 100px;
+            >h3{
+                margin-bottom: 0;
+            }
+        }
+        >.info-container{
+            padding : 0 100px;
+            >h3{
+                margin-bottom: 0;
+            }
+            >.button-box{
+                padding : 30px 0;
+            }
+        }
+    }
+    footer{
+        width: 100%;
+        >.footer-container{
+            padding: 0 100px;
+            >.text-box{
+                >.content{
+                    margin-right: 15px;
+                    >p{
+                        font-size: 12px;
+                    }
+                }
+            }
+            >figure{
+                >img{
+                    width: 100px;
+                }
+            }
+        }
+    }
+}
